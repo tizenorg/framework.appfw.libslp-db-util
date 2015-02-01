@@ -3,6 +3,7 @@ CC ?= gcc
 TARGETS = utc_ApplicationFW_db_util_close \
 		utc_ApplicationFW_db_util_open \
 		utc_ApplicationFW_db_util_open_with_options \
+		utc_ApplicationFW_db_util_create_collation \
 
 PKGS = sqlite3 dlog db-util
 

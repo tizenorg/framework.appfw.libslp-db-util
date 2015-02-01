@@ -1,6 +1,6 @@
 Name:       libslp-db-util
 Summary:    DB Utility
-Version:    0.1.5
+Version:    0.1.8
 Release:    1
 Group:      System/Libraries
 License:    Apache License, Version 2.0
@@ -26,10 +26,10 @@ Requires:   %{name} = %{version}-%{release}
 %setup -q -n %{name}-%{version}
 
 %build
-%if 0%{?tizen_build_binary_release_type_eng}
-export CFLAGS="$CFLAGS -DTIZEN_ENGINEER_MODE"
-export CXXFLAGS="$CXXFLAGS -DTIZEN_ENGINEER_MODE"
-export FFLAGS="$FFLAGS -DTIZEN_ENGINEER_MODE"
+%if 0%{?sec_build_binary_debug_enable}
+export CFLAGS="$CFLAGS -DTIZEN_DEBUG_ENABLE"
+export CXXFLAGS="$CXXFLAGS -DTIZEN_DEBUG_ENABLE"
+export FFLAGS="$FFLAGS -DTIZEN_DEBUG_ENABLE"
 %endif
 cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
 

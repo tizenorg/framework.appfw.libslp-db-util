@@ -101,7 +101,7 @@ int db_util_open(const char *pszFilePath, sqlite3 **ppDB, int nOption)
 		return DB_UTIL_ERROR;
 	}
 
-	if(access(pszFilePath, R_OK)) {
+	if((geteuid() != 0) && (access(pszFilePath, R_OK))) {
 		if(errno == EACCES) {
 			DB_UTIL_TRACE_ERROR("file access permission error");
 			return SQLITE_PERM;
@@ -111,7 +111,7 @@ int db_util_open(const char *pszFilePath, sqlite3 **ppDB, int nOption)
 	/* Open DB */
 	int rc = sqlite3_open(pszFilePath, ppDB);
 	if (SQLITE_OK != rc) {
-		DB_UTIL_TRACE_ERROR("sqlite3_open error(%d), ");
+		DB_UTIL_TRACE_ERROR("sqlite3_open error(%d)", rc);
 		return rc;
 	}
 
@@ -139,7 +139,7 @@ int db_util_open_with_options(const char *pszFilePath, sqlite3 **ppDB,
 	mode = R_OK;
 #endif
 
-	if(access(pszFilePath, mode)) {
+	if((geteuid() != 0) && (access(pszFilePath, mode))) {
 		if(errno == EACCES) {
 			DB_UTIL_TRACE_ERROR("file access permission error");
 			return SQLITE_PERM;
@@ -149,7 +149,7 @@ int db_util_open_with_options(const char *pszFilePath, sqlite3 **ppDB,
 	/* Open DB */
 	int rc = sqlite3_open_v2(pszFilePath, ppDB, flags, zVfs);
 	if (SQLITE_OK != rc) {
-		DB_UTIL_TRACE_ERROR("sqlite3_open_v2 error(%d), ");
+		DB_UTIL_TRACE_ERROR("sqlite3_open_v2 error(%d)",rc);
 		return rc;
 	}
 

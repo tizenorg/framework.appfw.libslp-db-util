@@ -31,6 +31,11 @@ extern "C" {
 #include <stdbool.h>
 #include <sqlite3.h>
 
+/**
+ * @addtogroup DB_UTIL
+ * @{
+ */
+
 #ifndef EXPORT_API
 #define EXPORT_API __attribute__ ((visibility("default")))
 #endif
@@ -43,11 +48,17 @@ extern "C" {
 #define PARAM_OUT
 #endif
 
+/**
+ * @brief Enumeration of error code.
+ */
 typedef enum {
-	DB_UTIL_ERROR = SQLITE_ERROR,
-	DB_UTIL_OK = SQLITE_OK,
+	DB_UTIL_ERROR = SQLITE_ERROR,   /**< Error */
+	DB_UTIL_OK = SQLITE_OK, /**< Successful */
 } db_util_err;
 
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 }

@@ -474,6 +474,11 @@ int db_util_create_collation(
 
 	DB_UTIL_TRACE_DEBUG("db_util_create_collation start");
 
+	if( (!db_handle) || (!col_name) ) {
+		DB_UTIL_TRACE_ERROR("wrong input param");	
+		return DB_UTIL_ERROR;
+	}
+
 	ret = __db_util_dl_load_icu();
 	DB_UTIL_RETV_IF(ret != DB_UTIL_OK, DB_UTIL_ERROR);
 
@@ -519,6 +524,7 @@ int db_util_create_collation(
 #endif
 		default :
 			DB_UTIL_TRACE_WARNING("wrong collate input type");
+			ret = DB_UTIL_ERROR;
 	}
 
 	if(ret != DB_UTIL_OK)

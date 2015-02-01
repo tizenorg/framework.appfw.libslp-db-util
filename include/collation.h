@@ -28,8 +28,13 @@ extern "C" {
 
 #include <db-util-common.h>
 
+/**
+ * @addtogroup DB_UTIL
+ * @{
+ */
+
 /*
- * Collations Types
+ * @brief Collations Types
  *
  * These types are intended for use in the
  * 2nd parameter to the [db_util_create_collation()] interface.
@@ -63,47 +68,35 @@ extern "C" {
  */
 
 typedef enum {
-	DB_UTIL_COL_UCA,
-	DB_UTIL_COL_LS_AS_CI,
-	DB_UTIL_COL_LS_AI_CI,
-	DB_UTIL_COL_LS_AI_CI_LC,
-	DB_UTIL_COL_KO_IC,    //deprecated
-	DB_UTIL_COL_KO_IC_LC  //deprecated
+	DB_UTIL_COL_UCA,    /**< */
+	DB_UTIL_COL_LS_AS_CI,   /**< */
+	DB_UTIL_COL_LS_AI_CI,   /**< */
+	DB_UTIL_COL_LS_AI_CI_LC,    /**< */
+	DB_UTIL_COL_KO_IC,  //deprecated
+	DB_UTIL_COL_KO_IC_LC    //deprecated
 } db_util_collate_type;
 
 /*
- * Text Encodings
+ * @brief Text Encodings
  *
  * These encodings are intended for use in the
  * 3rd parameter to the [db_util_create_collation()] interface.
  */
 typedef enum {
-	DB_UTIL_COL_UTF8 = SQLITE_UTF8,
-	DB_UTIL_COL_UTF16 = SQLITE_UTF16
+	DB_UTIL_COL_UTF8 = SQLITE_UTF8, /**< */
+	DB_UTIL_COL_UTF16 = SQLITE_UTF16    /**< */
 } db_util_collate_textrep;
 
-
 /**
- * @defgroup DB_UTIL
- * @ingroup StorageFW
- * @{
- */
-
-/**
- * @fn int  db_util_create_collation(sqlite3 *db_handle, db_util_collate_type type, db_util_collate_textrep text_type, char* col_name);
- * This function defines a new collating sequences with the database connection specified as the firtst argument.
- * This function is needed to be invoked after [db_util_open()].
- *
- * @param[in] Db connection handle to create collation with
- * @param[in] Collation type. This value must be one of the [db_util_collate_type]
- * @param[in] Encoding of text passed to the collating function callback
- * @param[in] The name of collation(UTF-8 string)
- * return     This function returns DB_UTIL_OK or error code on failure
- * @exception None
- * @remarks   None
+ * @brief This function defines a new collating sequences with the database connection specified as the firtst argument.
+ * @remarks This function is needed to be invoked after [db_util_open()].
+ * @param [in] Db connection handle to create collation with
+ * @param [in] Collation type. This value must be one of the [db_util_collate_type]
+ * @param [in] Encoding of text passed to the collating function callback
+ * @param [in] The name of collation(UTF-8 string)
+ * @return This function returns #DB_UTIL_OK or error code on failure
  * @pre       Database connected
  * @post      None
- * @code
  */
 EXPORT_API int db_util_create_collation(
 	PARAM_IN sqlite3 *db_handle,
@@ -113,8 +106,8 @@ EXPORT_API int db_util_create_collation(
 );
 
 /**
-*@}
-*/
+ * @}
+ */
 
 #ifdef __cplusplus
 }
