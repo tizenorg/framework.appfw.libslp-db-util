@@ -28,21 +28,22 @@ extern "C" {
 
 #include <db-util-common.h>
 
-#define DB_UTIL_REGISTER_HOOK_METHOD    0x00000001
-#define DB_UTIL_LUCENE_INDEX            0x00000002
-
 /**
-* @defgroup StorageFW Storage Framework
-* In order to support applications using DB
-*/
-
-/**
- * @defgroup DB_UTIL
+ * @defgroup DB_UTIL DB Util
+ * @brief This provides functions to handle DB.
  * @ingroup StorageFW
+ * @section DB_UTIL_HEADER Required Header
+ *   \#include <db-util.h>
+ */
+
+/**
+ * @addtogroup DB_UTIL
  * @{
  */
 
 
+#define DB_UTIL_REGISTER_HOOK_METHOD    0x00000001
+#define DB_UTIL_LUCENE_INDEX            0x00000002
 
 /**
  * @brief invoke sqlite3_open with platform common configuration
@@ -85,8 +86,8 @@ EXPORT_API int db_util_open_with_options(const char *pszFilePath,
 EXPORT_API int db_util_close(sqlite3 *ppDB);
 
 /**
-*@}
-*/
+ * @}
+ */
 
 #ifdef __cplusplus
 }

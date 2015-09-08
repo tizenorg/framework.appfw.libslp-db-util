@@ -302,7 +302,7 @@ static int __db_util_collate_icu_8_lc(void *ucol, int str1_len, const void *str1
 	char* str_from = (char*)str1;
 	char* str_to = (char*)str1;
 	glong v1_char_len, v2_char_len;
-	int ret, i;
+	int i;
 
 #ifdef DB_UTIL_ENABLE_DEVDEBUG
 	DB_UTIL_TRACE_DEBUG("__db_util_collate_icu_8_lc func start \n");
@@ -423,14 +423,12 @@ static int __db_util_collation_create(sqlite3* db_handle, char* locale, char* co
 	}
 #endif
 
-	if(ucol_strength_value) {
-		icu_symbol.icu_ucol_setStrength(ucol, ucol_strength_value);
-		if (U_FAILURE(status)) {
-			DB_UTIL_TRACE_ERROR("ucol_setStrength fail : %d \n", status);
-			return DB_UTIL_ERR_ICU;
-		} else {
-			DB_UTIL_TRACE_DEBUG("ucol_setStrength success \n");
-		}
+	icu_symbol.icu_ucol_setStrength(ucol, ucol_strength_value);
+	if (U_FAILURE(status)) {
+		DB_UTIL_TRACE_ERROR("ucol_setStrength fail : %d \n", status);
+		return DB_UTIL_ERR_ICU;
+	} else {
+		DB_UTIL_TRACE_DEBUG("ucol_setStrength success \n");
 	}
 
 	if(utf_type == DB_UTIL_COL_UTF8) {
@@ -472,16 +470,20 @@ int db_util_create_collation(
 {
 	int ret = DB_UTIL_OK;
 	UErrorCode status = U_ZERO_ERROR;
-	char *dl_error = NULL;
 	const char* locale = NULL;
 
 	DB_UTIL_TRACE_DEBUG("db_util_create_collation start");
+
+	if( (!db_handle) || (!col_name) ) {
+		DB_UTIL_TRACE_ERROR("wrong input param");	
+		return DB_UTIL_ERROR;
+	}
 
 	ret = __db_util_dl_load_icu();
 	DB_UTIL_RETV_IF(ret != DB_UTIL_OK, DB_UTIL_ERROR);
 
 	/* get current locale */
-	icu_symbol.icu_uloc_setDefault((const char*)getenv("LC_COLLATE"), &status);
+	icu_symbol.icu_uloc_setDefault((const char*)getenv("LANG"), &status);
 	locale = icu_symbol.icu_uloc_getDefault();
 	if(locale == NULL) {
 		DB_UTIL_TRACE_WARNING("Fail to get current locale : %d", DB_UTIL_ERR_ENV);
@@ -522,6 +524,7 @@ int db_util_create_collation(
 #endif
 		default :
 			DB_UTIL_TRACE_WARNING("wrong collate input type");
+			ret = DB_UTIL_ERROR;
 	}
 
 	if(ret != DB_UTIL_OK)

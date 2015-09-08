@@ -1,3 +1,4 @@
 /unit/utc_ApplicationFW_db_util_close
 /unit/utc_ApplicationFW_db_util_open
 /unit/utc_ApplicationFW_db_util_open_with_options
+/unit/utc_ApplicationFW_db_util_create_collation
