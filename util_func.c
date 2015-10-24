@@ -22,6 +22,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <time.h>
 
 #include "util-func.h"
 #include "collation.h"
@@ -30,8 +31,12 @@
 static int __db_util_busyhandler(void *pData, int count)
 {
 	if(5 - count > 0) {
+		struct timespec time = {
+			.tv_sec = 0,
+			.tv_nsec = (count + 1) * 100 * 1000 * 1000
+		};
 		DB_UTIL_TRACE_DEBUG("Busy Handler Called! : PID(%d) / CNT(%d)\n", getpid(), count+1);
-		usleep((count+1)*100000);
+		nanosleep(&time, NULL);
 		return 1;
 	} else {
 		DB_UTIL_TRACE_WARNING("Busy Handler will be returned SQLITE_BUSY error : PID(%d) \n", getpid());
